@@ -3,7 +3,6 @@ const app = express()
 const session = require('express-session');
 const request = require('request');
 const jsdom = require("jsdom");
-const { json } = require("body-parser");
 const { JSDOM } = jsdom;
 
 app.use(session({

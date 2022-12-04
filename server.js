@@ -43,11 +43,28 @@ async function getData() {
         });
       }
       
+ async function getDataAbyss() {
+        return new Promise((resolve, reject) => {
+          request("https://ww5.manganelo.tv/manga/manga-in985422", (error, response) => {
+            let data = new JSDOM(response.body);
+            let title = data.window.document.querySelector(
+              "body > div.body-site > div.container.container-main > div.container-main-left > div.panel-story-chapter-list > ul > li:nth-child(1) > a"
+            ).innerHTML;
+            let href = data.window.document.querySelector(
+              "body > div.body-site > div.container.container-main > div.container-main-left > div.panel-story-chapter-list > ul > li:nth-child(1) > a"
+            ).href;
+            href = "https://ww5.manganelo.tv" + href
+            resolve({ title,href });
+          });
+        });
+      }
+         
       (async() => {
         let databerserk = await getData();
         let datachain = await GetchainsawMan();
-        console.log(databerserk, datachain);
-        res.render("index.ejs",{data:databerserk,dataChainsawMan: datachain})
+        let dataAbyss = await getDataAbyss();
+        console.log(databerserk, datachain,dataAbyss);
+        res.render("index.ejs",{data:databerserk,dataChainsawMan: datachain,dataAbyss: dataAbyss})
       })();
 
 
